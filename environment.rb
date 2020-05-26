@@ -5,6 +5,7 @@
 require 'net/http'
 require 'nokogiri'
 require 'json'
+require 'pry'
 
 
 #require all files 

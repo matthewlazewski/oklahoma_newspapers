@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "A quick history of some historical Oklahoma news publications"
   spec.description   = "A quick history of some historical Oklahoma news publications"
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      =  "https://github.com/matthewlazewski/oklahoma_newspapers"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
