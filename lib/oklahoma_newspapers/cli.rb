@@ -1,7 +1,7 @@
 class CLI
 
     def start 
-        puts "Welcome to 'A History of Oklahoma Newspapers'"
+        puts "Welcome to 'A History of Oklahoma Newspapers'. Your Number One Source for Random Facts About Newspapers You've Never Heard Of!"
         API.fetch_newspapers
         self.homepage
     end
@@ -89,22 +89,35 @@ class CLI
     end 
 
     def old_to_young
-       sorted = Newspaper.all.sort { |a,b| a.first_year <=> b.first_year }
-       puts sorted.each { |paper| paper.name }
+       sorted = Newspaper.all.sort { |a,b| a.first_year <=> b.first_year }.to_a
+       binding.pry 
+      
     end
 
     def search_newspapers
         puts "Enter the name of the publication: "
-        input = gets.chomp.downcase
-        
-        if input == Newspaper.all.each { |paper| paper.name.downcase } 
-            display_info(paper)
-        elsif input == "exit"
-            homepage 
+        input = gets.chomp.downcase.to_s
+
+        choice = Newspaper.all.find { |paper| paper }
+        if input == choice.name.downcase
+            puts "\n"
+            puts choice.name  
+            display_info(choice)
         else 
             puts "Invalid search. Please try again."
-            puts "\n"
-        end 
+            search_newspapers
+            input == "exit" ? homepage
+        end
+ 
+        
+        # if input == Newspaper.all.each { |paper| paper.name.downcase } 
+        #     display_info(paper)
+        # elsif input == "exit"
+        #     homepage 
+        # else 
+        #     puts "Invalid search. Please try again."
+        #     puts "\n"
+        # end 
 
     end 
 

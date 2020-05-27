@@ -17,4 +17,13 @@ class Newspaper
         @@all 
     end
 
+    # def self.search 
+    #     choice = self.all.find{ |paper| paper }
+    #     if input == choice.name 
+    #         return choice 
+    #     else 
+    #         puts "Invalid search. Please try again."
+    #     end
+    # end 
+
 end 
