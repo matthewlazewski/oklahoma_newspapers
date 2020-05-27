@@ -1,15 +1,15 @@
 class CLI
 
     def start 
-        puts "Welcome to 'A History of Oklahoma Newspapers'. Your Number One Source for Random Facts About Newspapers You've Never Heard Of!"
+        puts "Welcome to 'A Brief History of Oklahoma Newspapers'. Your Number One Source for Random Facts About Newspapers You've Never Heard Of!"
         API.fetch_newspapers
         self.homepage
     end
     
     def homepage
-        puts "Would you like to see a list of newspapers?"
-        puts "Type 'yes' to browse publications or 'more options' to see what else you can do."
-        puts "Type exit anywhere in the program to return to this page."
+        puts "\nWould you like to see a list of newspapers?"
+        puts "\nType 'yes' to browse publications or 'more options' to see what else you can do."
+        puts "\nType exit anywhere in the program to return to this page."
         user_input = gets.chomp.downcase 
 
         if user_input == "yes" || user_input == "y"
@@ -62,7 +62,9 @@ class CLI
         puts "\n 1. List Publications that are Still Being Published"
         puts "\n 2. List in Order of Year of First Publication"
         puts "\n 3. Search for Publication"
-        puts "\n 4. Return To Homepage"
+        puts "\n 4. List Daily Publications"
+        puts "\n 5. Return To Homepage"
+
         
         input = gets.chomp.to_i
         if input == 1
@@ -72,6 +74,8 @@ class CLI
         elsif input == 3
             search_newspapers
         elsif input == 4 
+            list_daily
+        elsif input == 5 
             homepage
         else 
             puts "\n Please enter valid number"
@@ -88,25 +92,37 @@ class CLI
         end 
     end 
 
+    def list_daily
+        Newspaper.all.map do |paper|
+            if paper.frequency == "Daily"
+                puts paper.name 
+            end 
+        end 
+    end 
+
     def old_to_young
-       sorted = Newspaper.all.sort { |a,b| a.first_year <=> b.first_year }.to_a
-       binding.pry 
-      
-    end
+        sorted = Newspaper.all.sort_by{ |paper| paper.first_year } 
+        sorted_name = sorted.each { |paper| paper.name }
+        puts sorted_name 
+        binding.pry 
+    end 
+         
 
     def search_newspapers
         puts "Enter the name of the publication: "
         input = gets.chomp.downcase.to_s
 
-        choice = Newspaper.all.find { |paper| paper }
-        if input == choice.name.downcase
+        
+        newspapers = Newspaper.all 
+        choice = newspapers.find { |paper| paper.name }
+        binding.pry 
+        if input == choice.name.downcase.chomp("[volume]")
             puts "\n"
             puts choice.name  
             display_info(choice)
         else 
-            puts "Invalid search. Please try again."
-            search_newspapers
-            input == "exit" ? homepage
+            puts "Invalid search. Please try again or type 'exit' to return to homepage."
+            input == "exit" ? homepage : search_newspapers
         end
  
         
