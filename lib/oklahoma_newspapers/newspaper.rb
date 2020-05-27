@@ -4,19 +4,19 @@ class Newspaper
     @@all = []
     def initialize
         @@all << self 
+        @name = name 
+        @location = location
+        @first_year = first_year 
+        @last_year = last_year
+        @frequency = frequency 
     end  
     
     def self.all 
         @@all 
-    end 
+    end
     
-    
-    #name => "title"
-    #location => "place_of_publicaiton"
-    #first year of publication => "start_year"
-    #last year of publication => "end_year"
-    #frequency => "frequency"
-
-
-
+    def self.paper_length_array
+        length = @@all.last_year.to_i - @@all.first_year.to_i 
+        length 
+    end
 end 
