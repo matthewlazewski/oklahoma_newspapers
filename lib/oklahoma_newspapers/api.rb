@@ -2,7 +2,7 @@ class API
     #make calls to our api 
 
     def self.fetch_newspapers
-        url = "https://chroniclingamerica.loc.gov/search/titles/results/?terms=oklahoma&format=json"
+        url = "https://chroniclingamerica.loc.gov/search/titles/results/?terms=oklahoma&format=json&page=1"
         uri = URI(url)
         response = Net::HTTP.get(uri)
         newspapers_hash = JSON.parse(response)

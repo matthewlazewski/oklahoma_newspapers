@@ -1,7 +1,10 @@
 class CLI
 
-    def start 
-        puts "Welcome to 'A Brief History of Oklahoma Newspapers'. Your Number One Source for Random Facts About Newspapers You've Never Heard Of!"
+    def start
+        puts    "         ,,,         "
+        puts    "        (o o)        "
+        puts    "----oOO--( )--OOo----"
+        puts "Welcome to 'A Brief History of Oklahoma Newspapers'! Your Number One Source for Random Facts About Newspapers You've Never Heard Of!"
         API.fetch_newspapers
         self.homepage
     end
@@ -45,15 +48,8 @@ class CLI
         end 
 
         selection = Newspaper.all[index]
-
-        puts "Would you like to learn more?"
-        user_input = gets.chomp.downcase
-    
-        if user_input == "yes" || user_input == "y"
-            display_info(selection)
-        else 
-            puts "Goodbye. Come back soon!"
-        end 
+        
+        display_info(selection)
        
     end 
 
@@ -87,6 +83,7 @@ class CLI
     def list_current
         Newspaper.all.map do |paper| 
             if paper.last_year == 9999 
+                put "\n"
                 puts paper.name 
             end 
         end 
@@ -95,16 +92,16 @@ class CLI
     def list_daily
         Newspaper.all.map do |paper|
             if paper.frequency == "Daily"
+                puts "\n"
                 puts paper.name 
             end 
         end 
     end 
 
     def old_to_young
-        sorted = Newspaper.all.sort_by{ |paper| paper.first_year } 
-        sorted_name = sorted.each { |paper| paper.name }
-        puts sorted_name 
-        binding.pry 
+        sorted = Newspaper.all.sort {|a,b| a.first_year <=> b.first_year}
+        sorted.each { |x| puts "\n#{x.name} #{x.first_year}" }  
+        sorted 
     end 
          
 
@@ -114,9 +111,9 @@ class CLI
 
         
         newspapers = Newspaper.all 
-        choice = newspapers.find { |paper| paper.name }
+        choice = newspapers.find { |paper| paper }
         binding.pry 
-        if input == choice.name.downcase.chomp("[volume]")
+        if input == choice.name.downcase
             puts "\n"
             puts choice.name  
             display_info(choice)
