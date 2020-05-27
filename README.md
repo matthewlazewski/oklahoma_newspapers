@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Follow the CLI instructions to learn some basic information about some historical newspaper publications in Oklahoma, both old and new. 
 
 ## Development
 
