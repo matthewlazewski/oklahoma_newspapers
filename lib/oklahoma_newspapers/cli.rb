@@ -1,10 +1,7 @@
 class CLI
-    #interact with the user 
-    #any puts or get statements 
-    #control the flow of our programs 
 
     def start 
-        puts "Welcome"
+        puts "Welcome to 'A History of Oklahoma Newspapers'"
         API.fetch_newspapers
         self.homepage
     end
@@ -12,6 +9,7 @@ class CLI
     def homepage
         puts "Would you like to see a list of newspapers?"
         puts "Type 'yes' to browse publications or 'more options' to see what else you can do."
+        puts "Type exit anywhere in the program to return to this page."
         user_input = gets.chomp.downcase 
 
         if user_input == "yes" || user_input == "y"
@@ -50,6 +48,7 @@ class CLI
 
         puts "Would you like to learn more?"
         user_input = gets.chomp.downcase
+    
         if user_input == "yes" || user_input == "y"
             display_info(selection)
         else 
@@ -63,6 +62,7 @@ class CLI
         puts "\n 1. List Publications that are Still Being Published"
         puts "\n 2. List in Order of Year of First Publication"
         puts "\n 3. Search for Publication"
+        puts "\n 4. Return To Homepage"
         
         input = gets.chomp.to_i
         if input == 1
@@ -71,8 +71,12 @@ class CLI
             old_to_young 
         elsif input == 3
             search_newspapers
+        elsif input == 4 
+            homepage
         else 
-            puts "Please enter valid number"
+            puts "\n Please enter valid number"
+            sleep(1)
+            more_options
         end 
     end 
 
@@ -85,23 +89,22 @@ class CLI
     end 
 
     def old_to_young
-       
-    end 
+       sorted = Newspaper.all.sort { |a,b| a.first_year <=> b.first_year }
+       puts sorted.each { |paper| paper.name }
+    end
 
     def search_newspapers
         puts "Enter the name of the publication: "
-        input = gets.chomp
-
+        input = gets.chomp.downcase
         
-        
-        
-        
-        # if input == Newspaper.all.each { |paper| paper.name } 
-        #     display_info(paper)
-        # else 
-        #     puts "Invalid search. Please try again."
-        #     puts "\n"
-        # end 
+        if input == Newspaper.all.each { |paper| paper.name.downcase } 
+            display_info(paper)
+        elsif input == "exit"
+            homepage 
+        else 
+            puts "Invalid search. Please try again."
+            puts "\n"
+        end 
 
     end 
 
@@ -122,7 +125,7 @@ class CLI
             puts "Last Year of Publication: " + newspaper_choice.last_year.to_s 
         end 
         puts "\n"
-    end 
+    end  
 end 
 
 

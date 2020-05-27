@@ -20,12 +20,5 @@ class API
             instance.last_year = paper["end_year"]
             instance.frequency = paper["frequency"]
         end  
-        
-        #name => "title"
-        #location => "place_of_publicaiton"
-        #first year of publication => "start_year"
-        #last year of publication => "end_year"
-        #frequency => "frequency
-
     end 
 end 
