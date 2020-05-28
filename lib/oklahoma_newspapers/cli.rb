@@ -109,7 +109,6 @@ class CLI
         input = gets.strip.downcase.to_s
 
         
-        
         search_result = Newspaper.search(input)
         if  search_result != nil 
             puts "\n" 
@@ -120,15 +119,6 @@ class CLI
             input == "exit" ? homepage : homepage
         end
  
-        
-        # if  Newspaper.all.find { |paper| input == paper.name.downcase } 
-        #     display_info(paper)
-        # elsif input == "exit"
-        #     homepage 
-        # else 
-        #     puts "Invalid search. Please try again."
-        #     puts "\n"
-        # end 
 
     end 
 
