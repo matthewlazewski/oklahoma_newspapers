@@ -16,6 +16,9 @@ class Newspaper
     def self.all 
         @@all 
     end
-
+    
+    def self.search(input)
+        self.all.find{ |i| input ==  i.name.downcase }
+    end 
 
 end 

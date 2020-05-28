@@ -4,15 +4,16 @@ class CLI
         puts    "         ,,,         "
         puts    "        (o o)        "
         puts    "----oOO--( )--OOo----"
-        puts "Welcome to 'A Brief History of Oklahoma Newspapers'! Your Number One Source for Random Facts About Newspapers You've Never Heard Of!"
+        puts "Welcome to 'A Brief History of Oklahoma Newspapers! Your Number One Source for Random Facts About Newspapers You've Probably Never Heard Of!"
         API.fetch_newspapers
         self.homepage
     end
     
     def homepage
+        sleep(1)
         puts "\nWould you like to see a list of newspapers?"
         puts "\nType 'yes' to browse publications or 'more options' to see what else you can do."
-        puts "\nType exit anywhere in the program to return to this page."
+        puts "\nType exit anywhere in the program to return to the home page."
         user_input = gets.chomp.downcase 
 
         if user_input == "yes" || user_input == "y"
@@ -25,29 +26,27 @@ class CLI
             sleep(1)
             homepage 
         else 
-            #end the program
             puts "Goodbye! Come back soon!"
         end 
     
     end 
 
     def display_newspapers
-        #access and print newspapers
         Newspaper.all.each.with_index(1) do |paper, index|
             puts "#{index}. #{paper.name}"
         end 
+        puts "Please select the number of the publication you wish to view."
     end 
 
     def ask_for_selection
-        #ask user for choice
-        index = gets.chomp.to_i - 1
+        input = gets.chomp.to_i - 1
 
-        until index.between?(0, Newspaper.all.length - 1) 
+        until input.between?(0, Newspaper.all.length - 1) 
             puts "Invalid selection. Please enter a valid number."
             index = gets.strip.to_i - 1 
         end 
 
-        selection = Newspaper.all[index]
+        selection = Newspaper.all[input]
         
         display_info(selection)
        
@@ -72,7 +71,7 @@ class CLI
         elsif input == 4 
             list_daily
         elsif input == 5 
-            homepage
+        
         else 
             puts "\n Please enter valid number"
             sleep(1)
@@ -80,50 +79,49 @@ class CLI
         end 
     end 
 
+    def display_list_view(newpaper_collection)
+        newpaper_collection.each do |paper| 
+            puts "\n"
+            puts paper.name 
+        end  
+    end 
+
     def list_current
-        Newspaper.all.map do |paper| 
-            if paper.last_year == 9999 
-                put "\n"
-                puts paper.name 
-            end 
-        end 
+        current = Newspaper.all.find_all { |paper| paper.last_year == 9999 }
+        display_list_view(current)
     end 
 
     def list_daily
-        Newspaper.all.map do |paper|
-            if paper.frequency == "Daily"
-                puts "\n"
-                puts paper.name 
-            end 
-        end 
+        daily = Newspaper.all.find_all { |paper| paper.frequency == "Daily" }
+        display_list_view(daily) 
     end 
 
     def old_to_young
         sorted = Newspaper.all.sort {|a,b| a.first_year <=> b.first_year}
         sorted.each { |x| puts "\n#{x.name} #{x.first_year}" }  
         sorted 
+        puts "\n"
     end 
          
 
     def search_newspapers
         puts "Enter the name of the publication: "
-        input = gets.chomp.downcase.to_s
+        input = gets.strip.downcase.to_s
 
         
-        newspapers = Newspaper.all 
-        choice = newspapers.find { |paper| paper }
-        binding.pry 
-        if input.contain?(choice)
-            puts "\n"
-            puts choice.name  
-            display_info(choice)
+        
+        search_result = Newspaper.search(input)
+        if  search_result != nil 
+            puts "\n" 
+            display_info(search_result)
         else 
             puts "Invalid search. Please try again or type 'exit' to return to homepage."
-            input == "exit" ? homepage : search_newspapers
+            search_newspapers
+            input == "exit" ? homepage : homepage
         end
  
         
-        # if input == Newspaper.all.each { |paper| paper.name.downcase } 
+        # if  Newspaper.all.find { |paper| input == paper.name.downcase } 
         #     display_info(paper)
         # elsif input == "exit"
         #     homepage 
