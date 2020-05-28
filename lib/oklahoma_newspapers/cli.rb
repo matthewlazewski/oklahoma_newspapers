@@ -113,7 +113,7 @@ class CLI
         newspapers = Newspaper.all 
         choice = newspapers.find { |paper| paper }
         binding.pry 
-        if input == choice.name.downcase
+        if input.contain?(choice)
             puts "\n"
             puts choice.name  
             display_info(choice)
