@@ -27,6 +27,7 @@ class CLI
             homepage 
         else 
             puts "Goodbye! Come back soon!"
+            exit 
         end 
     
     end 
@@ -43,7 +44,7 @@ class CLI
 
         until input.between?(0, Newspaper.all.length - 1) 
             puts "Invalid selection. Please enter a valid number."
-            index = gets.strip.to_i - 1 
+            input = gets.strip.to_i - 1 
         end 
 
         selection = Newspaper.all[input]
@@ -115,8 +116,8 @@ class CLI
             display_info(search_result)
         else 
             puts "Invalid search. Please try again or type 'exit' to return to homepage."
-            search_newspapers
-            input == "exit" ? homepage : homepage
+
+            input == "exit" ? exit : search_newspapers
         end
  
 
